@@ -1,0 +1,88 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React with CDN</title>
+	<link rel="stylesheet" ref="text/css" href="lib/semantic.min.css" />
+    <script src="lib/babel.min.js"></script>
+    <script src="lib/react.development.js"></script>
+    <script src="lib/react-dom.development.js"></script>
+	
+</head>
+<body>
+    <div id="root"></div>
+	    <script type="text/babel">
+        class App extends React.Component
+        {
+            state = {
+				userOne: 0,
+				userTwo: 0,
+				userThree: 0,
+				noOfImages: 0,
+				timeRequire: 0
+			}
+			requiredTime(arr, noOfImages) {
+				var t = 0;
+				while ((true)) 
+				{
+					{
+						var items = 0;
+						for (var i = 0; i < arr.length; i++) {
+							items += ((t / arr[i] | 0));
+						}
+						if (items >= noOfImages)
+							return t;
+						t++;
+					}
+				}
+			}
+			
+			handleSubmit = (e)=>{
+				e.preventDefault();
+				var arr = [this.state.userOne,this.state.userTwo, this.state.userThree];
+				var duration = this.requiredTime(arr, parseInt(this.state.noOfImages));
+				this.setState({timeRequire: duration});
+			}
+            render()
+            {
+                return(
+					<form className="ui form" onSubmit={this.handleSubmit}>
+						<div style={{marginTop:'150px'}} className="ui text container">
+						  <div className="three fields">
+							<div className="field">
+							  <label>Required min for member 1</label>
+							  <input onChange={(e)=>{this.setState({userOne: e.target.value})}} required type="number" />
+							</div>
+							<div className="field">
+							  <label>Required min for member 2</label>
+							  <input onChange={(e)=>{this.setState({userTwo: e.target.value})}} type="number" required />
+							</div>
+							<div className="field">
+							  <label>Required min for member 3</label>
+							  <input onChange={(e)=>{this.setState({userThree: e.target.value})}} type="number" required />
+							</div>
+						  </div>
+						  <div className="two fields">
+							<div className="field">
+							  <label>No of Images</label>
+							  <input onChange={(e)=>{this.setState({noOfImages: e.target.value})}} type="number" required />
+							</div>
+						  </div>
+						  <div className="two field">
+							<div className="field">
+								<button className="ui green button">Submit</button>
+							</div>
+						  </div>
+						  <div className="ui message">
+							<p>Required minutes to {this.state.noOfImages} images : </p> <h3>{this.state.timeRequire}</h3> 
+						</div>
+						</div>
+					</form>
+                );
+            }
+        }
+        ReactDOM.render(<App/>, document.getElementById('root'));
+    </script>
+</body>
+</html>
